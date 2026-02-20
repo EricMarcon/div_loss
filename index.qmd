@@ -1,0 +1,282 @@
+---
+title: Tree diversity changes estimation issues. Reply to Fadrique et al.(2026)
+format:
+  nature-pdf:
+    # journal.cite-style is included in the tex file but ignored by pandoc if 
+    # cite-method is not `natbib`.
+    journal:
+      cite-style: sn-nature
+    # `citeproc` is the pandoc default. Set `cite-method: natbib` if required
+    # to use the bst styles from the upstream template.
+    cite-method: natbib
+    keep-tex: true
+    equal-margins: false
+author:
+  - name: Eric Marcon
+    affiliations:
+      - name: AgroParisTech
+        id: 1
+        city: Montpellier
+        state: France
+      - name: AMAP, CIRAD, CNRS, INRAE, IRD, Univ Montpellier
+        id: 2
+        city: Montpellier
+        state: France
+    email: eric.marcon@agroparistech.fr
+    attributes:
+      corresponding: true
+abstract: |
+  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.*(2026) are presented. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary method is proposed to correct these issues.
+  
+bibliography: bibliography.bib
+execute:
+  # show code chunk output
+  include: true
+  # Show the code in the output
+  echo: false
+  # Show messages
+  message: false
+  # Show warnings
+  warning: false
+  # Cache code results
+  cache: true
+---
+
+```{r}
+#| label: DoNotModify
+### Utilities for R. 
+# Do not modify unless you don't use R: then, delete this chunk.
+# Installation of R packages if necessary
+install_packages <- function(packages) {
+  invisible(
+    sapply(
+      packages, 
+      FUN = function(package) {
+        if (!package %in% installed.packages()[, 1]) {
+          install.packages(
+            package, 
+            repos = "https://cran.rstudio.com/", 
+            quiet = TRUE
+          )
+        }
+      }
+    )
+  )
+}
+
+# Basic packages
+install_packages(c("knitr", "formatR"))
+
+# Chunk font size hook: allows size='small' 
+# or any valid Latex font size in chunk options
+def.chunk.hook <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(
+  chunk = function(x, options) {
+    x <- def.chunk.hook(x, options)
+    ifelse(
+      options$size == "normalsize", 
+      yes = x,
+      no = paste0("\n \\", options$size, "\n\n", x, "\n\n \\normalsize")
+    )
+  }
+)
+```
+
+```{r}
+#| label: Options
+### Customized R options for this document
+# Delete this chunk if you don't use R
+
+# Add necessary packages here
+packages <- c("tidyverse", "divent", "ggpubr")
+# Install them
+install_packages(packages)
+
+# knitr options (https://yihui.org/knitr/options/)
+knitr::opts_chunk$set(
+  # Code chunk automatic format if tidy is TRUE
+  tidy = FALSE, 
+  # Tidy code options: remove blank lines and cut lines after 50 characters
+  tidy.opts = list(blank = FALSE, width.cutoff = 50),
+  # Font size in PDF output
+  size = "scriptsize", 
+  # Select PDF figures in PDF output if PDF file exists beside PNG file
+  knitr.graphics.auto_pdf = TRUE
+)
+# Text width of R functions output
+options(width = 50)
+
+# ggplot style
+library("tidyverse")
+theme_set(theme_bw())
+theme_update(
+  panel.background = element_rect(fill = "transparent", colour = NA),
+  plot.background = element_rect(fill = "transparent", colour = NA)
+)
+knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
+
+# Random seed
+set.seed(973)
+```
+
+# Introduction
+
+@Fadrique2026 assess long-term change in species richness in the Amazon and explore its determinant.
+The way they estimate the yearly richness change in each of the 406 plots used in the study faces two methodological issues that are serious enough to question the results and justify recomputing it.
+
+The consequences of the variation of plot sizes are shown in the first section of this reply, followed by those of the linear approximation of richness change along years.
+The last section suggests the methods to deal with these issues.
+
+# Plot size
+
+Richness change is characterized as the yearly, relative richness change whose baseline is the initial number of species.
+Yet, the number of species and its change depend on the area of the plot.
+
+@fig-plot_size a shows the species accumulation curves of two communities.
+The initial one is simulated in a log-normal distribution with standard deviation 1.3 and 300 species.
+The final one is drawn in the same distribution with 20% less species.
+The plots are samples of these distributions.
+The observed richness change relies heavily on the plot size (@fig-plot_size b).
+The same change in the community distribution imply completely different observed changes in plots of different sizes, that may even be contradictory: richness gain according to a 125-tree (around 0.25-ha) plot versus richness loss in a 500-tree (1-ha) plot.
+@fig-plot_size is just an illustration: various simulations (not shown) result in unpredictable shape of the relative richness change with respect to plot size.
+
+::: {#fig-plot_size}
+```{r}
+#| label: plot_size
+# Create a large community
+library("divent")
+the_richness <- 300
+the_sd_lnorm <- 1.3
+rcommunity(
+  1,
+  size = 1E7, 
+  species_number = the_richness, 
+  distribution = "lnorm",
+  sd_lnorm = the_sd_lnorm
+) %>% 
+  mutate(site = "original") %>% 
+  {. ->> the_community} %>% 
+  accum_hill(
+    q = 0,
+    levels = 1:1000
+  ) ->> p6_accum
+# Species loss
+rcommunity(
+  1,
+  size = 1E7, 
+  species_number = the_richness * 0.8, 
+  distribution = "lnorm",
+  sd_lnorm = the_sd_lnorm
+) %>% 
+  {. ->> the_community_2} %>% 
+  accum_hill(
+    q = 0,
+    levels = 1:1000
+  ) %>% 
+  mutate(site = "Species loss") %>% 
+  bind_rows(p6_accum) %>%
+  {. ->> the_accum} %>% 
+  autoplot() +
+  theme(legend.position = "none") ->
+  fig_SAC
+# Richness change
+the_accum %>% 
+  pivot_wider(names_from = site, values_from = "diversity") %>% 
+  mutate(change = (`Species loss` - original) / original) %>% 
+  ggplot(aes(x = level, y = change)) +
+  geom_line() ->
+  fig_change
+
+library(ggpubr)
+ggarrange(fig_SAC, fig_change, labels = letters[1:2], ncol = 2)
+```
+
+Species accumulation curves of two communities.
+:::
+
+Richness change thus cannot be compared between plot of different sizes: the same variation in the species distribution of the local community has quantitatively and, for small plots, sometimes qualitatively different effects on richness change.
+
+# Yearly richness change
+
+In the article, yearly richness change is calculated as
+
+$$
+r = ({SP}_{final} - {SP}_{initial}) / {SP}_{initial} / {time}
+$$ {#eq-linear_r}
+
+even though it is incorrectly reported as the opposite in the text.
+The multiplication by 100 to obtain a percentage is omitted here.
+This equation can be rearranged as
+
+$$
+{SP}_{final} = {SP}_{initial} * (1 + r * {time}).
+$$ {#eq-linear}
+
+The purpose is to estimate an average yearly richness change, whatever the time interval.
+Then, richness at time $t+1$ is richness at time $t$ multiplied by $1+r$, whatever t during the interval.
+Thus, the correct way to calculate r is derived from the relation
+
+$$
+{SP}_{final} = {SP}_{initial} * (1 + r)^{time}.
+$$ {#eq-exponential}
+
+This is the discrete form of an exponential variation.
+The linear approximation (@eq-linear) used in the article is acceptable for small intervals but leads to large error over decades.
+
+The correct richness loss is obtained by solving the previous equation:
+
+$$
+r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.
+$$ {#eq-exponential_r}
+
+An example is shown in @fig-species_loss.
+Starting from 150 species, $r$ is arbitrarily chosen equal to 1% per year.
+After 40 years, the final number of species (@eq-exponential) is close to `r round(150 * .99^40)`, rather than 90 according to @eq-linear.
+@eq-linear_r used in the article estimates the species loss to be `r format((150 - 150 * .99^40) / 150 / 40 * 100, digits = 2)`% instead of 1%.
+
+The error increases with the absolute value of richness change: 5% yearly species lost during 40 years is estimated to be only `r format((150 - 150 * .95^40) / 150 / 40 * 100, digits = 2)`% by @eq-linear_r.
+
+::: {#fig-species_loss}
+```{r}
+#| label: species_loss
+sp_initial <- 150
+r <- -1/100
+years <- 0:40
+sp_year <- sp_initial * (1 + r)^years
+sp_linear <- sp_initial + (min(sp_year) - sp_initial) / max(years) * years
+tibble(time = years, exponential = sp_year, linear = sp_linear) %>% 
+  pivot_longer(cols = -"time", names_to = "model") %>% 
+  ggplot(aes(x = time, y = value, color = model)) +
+  geom_line() +
+  theme(legend.position = "none")
+```
+
+1% yearly richness loss along 40 years.
+The number of species is represented by the red curve, from 150 species initially to approximately 100 species after 40 years.
+The blue line is the incorrect linear approximation of the curve based on the initial and final numbers of species, that underestimates the yearly richness loss: its slope is -0.83% of the initial number of species.
+:::
+
+Richness change absolute value is thus systematically underestimated in the article.
+The error increases with the interval between inventories and its actual value.
+
+# Corrections
+
+These issues can be corrected relatively simply.
+The first step consists in standardizing the plot size.
+Since the average plot size is 1.23 ha, 1 ha seems a good choice.
+A round size, used in many studies, has the advantage of allowing intuitive interpretation.
+Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not dominant.
+
+The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated.
+Extrapolation over twice the original size is considered risky so the standard size may be reduced if too many small plots are used.
+
+The standardized initial and final richness of each plot will then be available.
+The second step is calculating richness change according to @eq-exponential_r.
+Last, all analyzes can be run again.
+
+# References
+
+<!-- the pattern below controls the placement of the references -->
+
+::: {#refs}
+:::
