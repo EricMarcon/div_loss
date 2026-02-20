@@ -1,5 +1,5 @@
 ---
-title: Tree diversity changes estimation issues. Reply to Fadrique et al.(2026)
+title: Tree diversity changes estimation issues. Commentary on Fadrique et al.(2026)
 format:
   nature-pdf:
     # journal.cite-style is included in the tex file but ignored by pandoc if 
@@ -108,11 +108,14 @@ options(width = 50)
 
 # ggplot style
 library("tidyverse")
-theme_set(theme_bw())
-theme_update(
-  panel.background = element_rect(fill = "transparent", colour = NA),
-  plot.background = element_rect(fill = "transparent", colour = NA)
-)
+# Function to call in each chunk
+ggtheme_set <- function() {
+  theme_set(theme_bw())
+  theme_update(
+    panel.background = element_rect(fill = "transparent", colour = NA),
+    plot.background = element_rect(fill = "transparent", colour = NA)
+  )
+}
 knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
 
 # Random seed
@@ -147,13 +150,15 @@ The same changes in the community distribution imply completely different observ
 ::: {#fig-plot_size}
 ```{r}
 #| label: plot_size
+ggtheme_set()
 # Create a large community
 library("divent")
+the_size <- 1E6
 the_richness <- 300
 the_sd_lnorm <- 1.3
 rcommunity(
   1,
-  size = 1E7, 
+  size = the_size, 
   species_number = the_richness, 
   distribution = "lnorm",
   sd_lnorm = the_sd_lnorm
@@ -165,10 +170,11 @@ rcommunity(
     levels = 1:1000
   ) ->> p6_accum
 # Species loss
+the_loss <- 20/100
 rcommunity(
   1,
-  size = 1E7, 
-  species_number = the_richness * 0.8, 
+  size = the_size, 
+  species_number = the_richness * (1 - the_loss), 
   distribution = "lnorm",
   sd_lnorm = the_sd_lnorm
 ) %>% 
@@ -177,7 +183,7 @@ rcommunity(
     q = 0,
     levels = 1:1000
   ) %>% 
-  mutate(site = "Species loss") %>% 
+  mutate(site = "loss") %>% 
   bind_rows(p6_accum) %>%
   {. ->> the_accum} %>% 
   autoplot() +
@@ -186,16 +192,18 @@ rcommunity(
 # Richness change
 the_accum %>% 
   pivot_wider(names_from = site, values_from = "diversity") %>% 
-  mutate(change = (`Species loss` - original) / original) %>% 
+  mutate(change = (loss - original) / original) %>% 
   ggplot(aes(x = level, y = change)) +
-  geom_line() ->
+  geom_line() +
+  labs(x = "Sample Size", y = "Relative Richness Change") ->
   fig_change
 
 library(ggpubr)
 ggarrange(fig_SAC, fig_change, labels = letters[1:2], ncol = 2)
 ```
 
-Species accumulation curves of two communities.
+\(a\) Species accumulation curves of a log-normal community with 300 species (blue) or 240 species (red).
+The observed relative richness change (b) depends on the sample size.
 :::
 
 Richness change thus cannot be compared between plot of different sizes: the same variation in the species distribution of the local community has quantitatively and, for small plots, sometimes qualitatively different effects on richness change.
@@ -243,6 +251,7 @@ The error increases with the absolute value of richness change: 5% yearly specie
 ::: {#fig-species_loss}
 ```{r}
 #| label: species_loss
+ggtheme_set()
 sp_initial <- 150
 r <- -1/100
 years <- 0:40
@@ -252,6 +261,7 @@ tibble(time = years, exponential = sp_year, linear = sp_linear) %>%
   pivot_longer(cols = -"time", names_to = "model") %>% 
   ggplot(aes(x = time, y = value, color = model)) +
   geom_line() +
+  labs(x = "Time", y = "Richness") +
   theme(legend.position = "none")
 ```
 
