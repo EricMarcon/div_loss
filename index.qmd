@@ -26,7 +26,7 @@ author:
     attributes:
       corresponding: true
 abstract: |
-  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.*(2026) are presented. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary method is proposed to correct these issues.
+  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.*(2026) are presented. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.
   
 bibliography: bibliography.bib
 execute:
@@ -121,24 +121,28 @@ set.seed(973)
 
 # Introduction
 
-@Fadrique2026 assess long-term change in species richness in the Amazon and explore its determinant.
+Fadrique and colleagues [@Fadrique2026] assess the long-term variations of species richness in the Amazon and explore their determinants.
 The way they estimate the yearly richness change in each of the 406 plots used in the study faces two methodological issues that are serious enough to question the results and justify recomputing it.
 
-The consequences of the variation of plot sizes are shown in the first section of this reply, followed by those of the linear approximation of richness change along years.
+The consequences of unequal plot sizes are shown in the first section of this reply, followed by those of the linear approximation of richness change along years.
 The last section suggests the methods to deal with these issues.
 
-# Plot size
+Examples were made with the entropart package [@divent] for R [@R].
 
-Richness change is characterized as the yearly, relative richness change whose baseline is the initial number of species.
-Yet, the number of species and its change depend on the area of the plot.
+# Plot sizes
+
+Richness change is characterized in the article as a relative increase or decrease compared to the initial number of species.
+Yet, the number of species and its change depend on the area of each plot.
+Plots are samples of local communities of trees.
+Their richness depend on the species distribution in the community they belong to and of their size.
+The species accumulation curves [@Gotelli2001], i.e. the expected richness with respect to sample size, can be computed easily [@Chao2014].
 
 @fig-plot_size a shows the species accumulation curves of two communities.
 The initial one is simulated in a log-normal distribution with standard deviation 1.3 and 300 species.
 The final one is drawn in the same distribution with 20% less species.
-The plots are samples of these distributions.
 The observed richness change relies heavily on the plot size (@fig-plot_size b).
-The same change in the community distribution imply completely different observed changes in plots of different sizes, that may even be contradictory: richness gain according to a 125-tree (around 0.25-ha) plot versus richness loss in a 500-tree (1-ha) plot.
-@fig-plot_size is just an illustration: various simulations (not shown) result in unpredictable shape of the relative richness change with respect to plot size.
+The same changes in the community distribution imply completely different observed changes in plots of different sizes, that may even be contradictory: richness gain here according to a 125-tree (around 0.25-ha) plot versus richness loss in a 500-tree (1-ha) plot.
+@fig-plot_size is just an illustration: various simulations (not shown) result in unpredictable shape of the relative richness change curve.
 
 ::: {#fig-plot_size}
 ```{r}
@@ -257,26 +261,26 @@ The blue line is the incorrect linear approximation of the curve based on the in
 :::
 
 Richness change absolute value is thus systematically underestimated in the article.
-The error increases with the interval between inventories and its actual value.
+The error increases with the interval between inventories and its actual value, making the more valuable data less reliable.
 
 # Corrections
 
 These issues can be corrected relatively simply.
-The first step consists in standardizing the plot size.
+The first step consists of standardizing the plot size.
 Since the average plot size is 1.23 ha, 1 ha seems a good choice.
 A round size, used in many studies, has the advantage of allowing intuitive interpretation.
-Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not dominant.
+Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not the most abundant [@Grabchak2016].
 
-The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated.
-Extrapolation over twice the original size is considered risky so the standard size may be reduced if too many small plots are used.
+The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated [@Gotelli2001].
+The target size is a number of individuals, calculated according to each plot's tree density.
+Extrapolation over twice the original size is considered risky [@Chao2014] so the standard size may have to be reduced if too many small plots are used.
+The trade-off is between larger standardized plots, including information about more species and smaller plots to limit extrapolation uncertainty.
 
 The standardized initial and final richness of each plot will then be available.
 The second step is calculating richness change according to @eq-exponential_r.
-Last, all analyzes can be run again.
+Then, all analyzes can be run again.
 
 # References
-
-<!-- the pattern below controls the placement of the references -->
 
 ::: {#refs}
 :::
