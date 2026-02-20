@@ -1,16 +1,13 @@
 ---
-title: Tree diversity changes estimation issues. Commentary on Fadrique et al.(2026)
+title: Tree diversity changes estimation issues. Commentary on Fadrique et al. (2026)
 format:
   nature-pdf:
-    # journal.cite-style is included in the tex file but ignored by pandoc if 
-    # cite-method is not `natbib`.
     journal:
       cite-style: sn-nature
-    # `citeproc` is the pandoc default. Set `cite-method: natbib` if required
-    # to use the bst styles from the upstream template.
     cite-method: natbib
     keep-tex: true
     equal-margins: false
+    classoption: [lineno]
 author:
   - name: Eric Marcon
     affiliations:
@@ -26,7 +23,7 @@ author:
     attributes:
       corresponding: true
 abstract: |
-  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.*(2026) are presented. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.
+  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.* (2026) in Nature Ecology & Evolution are presented. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.
   
 bibliography: bibliography.bib
 execute:
