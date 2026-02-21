@@ -221,8 +221,8 @@ $$
 $$ {#eq-linear}
 
 The purpose is to estimate an average yearly richness change, whatever the time interval.
-Then, richness at time $t+1$ is richness at time $t$ multiplied by $1+r$, whatever t during the interval.
-Thus, the correct way to calculate r is derived from the relation
+Then, richness at time $t+1$ is richness at time $t$ multiplied by $1+r$, whatever $t$ during the interval.
+Thus, the correct way to calculate $r$ is derived from the relation
 
 $$
 {SP}_{final} = {SP}_{initial} * (1 + r)^{time}.
@@ -237,12 +237,11 @@ $$
 r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.
 $$ {#eq-exponential_r}
 
-An example is shown in @fig-species_loss.
-Starting from 150 species, $r$ is arbitrarily chosen equal to 1% per year.
-After 40 years, the final number of species (@eq-exponential) is close to `r round(150 * .99^40)`, rather than 90 according to @eq-linear.
-@eq-linear_r used in the article estimates the species loss to be `r format((150 - 150 * .99^40) / 150 / 40 * 100, digits = 2)`% instead of 1%.
-
-The error increases with the absolute value of richness change: 5% yearly species lost during 40 years is estimated to be only `r format((150 - 150 * .95^40) / 150 / 40 * 100, digits = 2)`% by @eq-linear_r.
+```{r}
+#| label: r_text
+r_linear_1pc <- format((150 - 150 * .99^40) / 150 / 40 * 100, digits = 2)
+r_linear_5pc <- format((150 - 150 * .95^40) / 150 / 40 * 100, digits = 2)
+```
 
 ::: {#fig-species_loss}
 ```{r}
@@ -263,9 +262,15 @@ tibble(time = years, exponential = sp_year, linear = sp_linear) %>%
 
 1% yearly richness loss along 40 years.
 The number of species is represented by the red curve, from 150 species initially to approximately 100 species after 40 years.
-The blue line is the incorrect linear approximation of the curve based on the initial and final numbers of species, that underestimates the yearly richness loss: its slope is -0.83% of the initial number of species.
+The blue line is the incorrect linear approximation of the curve based on the initial and final numbers of species, that underestimates the yearly richness loss: its slope is -`r r_linear_1pc`% of the initial number of species.
 :::
 
+An example is shown in @fig-species_loss.
+Starting from 150 species, $r$ is arbitrarily chosen equal to 1% per year.
+After 40 years, the final number of species (@eq-exponential) is close to `r round(150 * .99^40)`, rather than 90 according to @eq-linear.
+@eq-linear_r used in the article estimates the species loss to be `r r_linear_1pc`% instead of 1%.
+
+The error increases with the absolute value of richness change: 5% yearly species lost during 40 years is estimated to be only `r r_linear_5pc`% by @eq-linear_r.
 Richness change absolute value is thus systematically underestimated in the article.
 The error increases with the interval between inventories and its actual value, making the more valuable data less reliable.
 
