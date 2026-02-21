@@ -127,14 +127,13 @@ The way they estimate the yearly richness change in each of the 406 plots used i
 The consequences of unequal plot sizes are shown in the first section of this reply, followed by those of the linear approximation of richness change along years.
 The last section suggests the methods to deal with these issues.
 
-Examples were made with the entropart package [@divent] for R [@R].
+Examples below were made with the *divent* package [@divent] for R [@R].
 
 # Plot sizes
 
 Richness change is characterized in the article as a relative increase or decrease compared to the initial number of species.
 Yet, the number of species and its change depend on the area of each plot.
-Plots are samples of local communities of trees.
-Their richness depend on the species distribution in the community they belong to and of their size.
+Plots are samples of local communities of trees: their richness depend on the species distribution in the community they belong to and of their size.
 The species accumulation curves [@Gotelli2001], i.e. the expected richness with respect to sample size, can be computed easily [@Chao2014].
 
 @fig-plot_size a shows the species accumulation curves of two communities.
@@ -142,7 +141,7 @@ The initial one is simulated in a log-normal distribution with standard deviatio
 The final one is drawn in the same distribution with 20% less species.
 The observed richness change relies heavily on the plot size (@fig-plot_size b).
 The same changes in the community distribution imply completely different observed changes in plots of different sizes, that may even be contradictory: richness gain here according to a 125-tree (around 0.25-ha) plot versus richness loss in a 500-tree (1-ha) plot.
-@fig-plot_size is just an illustration: various simulations (not shown) result in unpredictable shape of the relative richness change curve.
+@fig-plot_size is just an illustration: various simulations (not shown) result in unpredictable shape of the relative richness change curve: the difference of richness clearly increases with plot size but both richnesses increase, so their ratio may vary in different directions.
 
 ::: {#fig-plot_size}
 ```{r}
@@ -270,18 +269,18 @@ The blue line is the incorrect linear approximation of the curve based on the in
 Richness change absolute value is thus systematically underestimated in the article.
 The error increases with the interval between inventories and its actual value, making the more valuable data less reliable.
 
-# Corrections
+# Appropriate methods
 
 These issues can be corrected relatively simply.
 The first step consists of standardizing the plot size.
-Since the average plot size is 1.23 ha, 1 ha seems a good choice.
-A round size, used in many studies, has the advantage of allowing intuitive interpretation.
 Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not the most abundant [@Grabchak2016].
-
 The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated [@Gotelli2001].
-The target size is a number of individuals, calculated according to each plot's tree density.
 Extrapolation over twice the original size is considered risky [@Chao2014] so the standard size may have to be reduced if too many small plots are used.
 The trade-off is between larger standardized plots, including information about more species and smaller plots to limit extrapolation uncertainty.
+Since the average plot size is 1.23 ha, 1 ha may be a good choice: a round size, used in many studies, has the advantage of allowing intuitive interpretation.
+
+In practice, the target size is a number of individuals, calculated according to each plot's tree density.
+R packages *iNEXT* [@Hsieh2014] or *divent* allow interpolating and extrapolating richness of an abundance distribution to the desired number of trees.
 
 The standardized initial and final richness of each plot will then be available.
 The second step is calculating richness change according to @eq-exponential_r.
