@@ -141,7 +141,8 @@ The initial one is simulated in a log-normal distribution with standard deviatio
 The final one is drawn in the same distribution with 20% less species.
 The observed richness change relies heavily on the plot size (@fig-plot_size b).
 The same changes in the community distribution imply completely different observed changes in plots of different sizes, that may even be contradictory: richness gain here according to a 125-tree (around 0.25-ha) plot versus richness loss in a 500-tree (1-ha) plot.
-@fig-plot_size is just an illustration: various simulations (not shown) result in unpredictable shape of the relative richness change curve: the difference of richness clearly increases with plot size but both richnesses increase, so their ratio may vary in different directions.
+@fig-plot_size is just an illustration. 
+Various simulations show unpredictable shapes of the relative richness change curve: the difference of richness clearly increases with plot size but both initial and final richness increase, so their ratio may vary in different directions, even though it will ultimately reach an asymptote (-20% in @fig-plot_size b).  
 
 ::: {#fig-plot_size}
 ```{r}
