@@ -32,8 +32,6 @@
 
 # Template specific
 packages.bib
-sn-*.bst
-sn-jnl.cls
 
 # Uncomment if CI builds docs/
 docs/
