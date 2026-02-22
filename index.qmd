@@ -141,8 +141,8 @@ The initial one is simulated in a log-normal distribution with standard deviatio
 The final one is drawn in the same distribution with 20% less species.
 The observed richness change relies heavily on the plot size (@fig-plot_size b).
 The same changes in the community distribution imply completely different observed changes in plots of different sizes, that may even be contradictory: richness gain here according to a 125-tree (around 0.25-ha) plot versus richness loss in a 500-tree (1-ha) plot.
-@fig-plot_size is just an illustration. 
-Various simulations show unpredictable shapes of the relative richness change curve: the difference of richness clearly increases with plot size but both initial and final richness increase, so their ratio may vary in different directions, even though it will ultimately reach an asymptote (-20% in @fig-plot_size b).  
+@fig-plot_size is just an illustration.
+Various simulations show unpredictable shapes of the relative richness change curve: the difference of richness clearly increases with plot size but both initial and final richness increase, so their ratio may vary in different directions, even though it will ultimately reach an asymptote (-20% in @fig-plot_size b).
 
 ::: {#fig-plot_size}
 ```{r}
@@ -161,7 +161,7 @@ rcommunity(
   sd_lnorm = the_sd_lnorm
 ) %>% 
   mutate(site = "original") %>% 
-  {. ->> the_community} %>% 
+  {. ->> the_community_300} %>% 
   accum_hill(
     q = 0,
     levels = 1:1000
@@ -175,7 +175,7 @@ rcommunity(
   distribution = "lnorm",
   sd_lnorm = the_sd_lnorm
 ) %>% 
-  {. ->> the_community_2} %>% 
+  {. ->> the_community_240} %>% 
   accum_hill(
     q = 0,
     levels = 1:1000
@@ -200,12 +200,40 @@ ggarrange(fig_SAC, fig_change, labels = letters[1:2], ncol = 2)
 ```
 
 \(a\) Species accumulation curves of a log-normal community with 300 species (blue) or 240 species (red).
-The observed relative richness change (b) depends on the sample size.
+(b) The observed relative richness change depends on the sample size.
 :::
 
 Richness change thus cannot be compared between plot of different sizes: the same variation in the species distribution of the local community has quantitatively and, for small plots, sometimes qualitatively different effects on richness change.
 
 # Yearly richness change
+
+```{r}
+#| label: r_text
+r_linear_1pc <- format((150 - 150 * .99^40) / 150 / 40 * 100, digits = 2)
+r_linear_5pc <- format((150 - 150 * .95^40) / 150 / 40 * 100, digits = 2)
+```
+
+::: {#fig-species_loss}
+```{r}
+#| label: species_loss
+ggtheme_set()
+sp_initial <- 150
+r <- -1/100
+years <- 0:40
+sp_year <- sp_initial * (1 + r)^years
+sp_linear <- sp_initial + (min(sp_year) - sp_initial) / max(years) * years
+tibble(time = years, exponential = sp_year, linear = sp_linear) %>% 
+  pivot_longer(cols = -"time", names_to = "model") %>% 
+  ggplot(aes(x = time, y = value, color = model)) +
+  geom_line() +
+  labs(x = "Time", y = "Richness") +
+  theme(legend.position = "none")
+```
+
+1% yearly richness loss along 40 years.
+The number of species is represented by the red curve, from 150 species initially to approximately 100 species after 40 years.
+The blue line is the incorrect linear approximation of the curve based on the initial and final numbers of species, that underestimates the yearly richness loss: its slope is -`r r_linear_1pc`% of the initial number of species.
+:::
 
 In the article, yearly richness change is calculated as
 
@@ -238,34 +266,6 @@ $$
 r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.
 $$ {#eq-exponential_r}
 
-```{r}
-#| label: r_text
-r_linear_1pc <- format((150 - 150 * .99^40) / 150 / 40 * 100, digits = 2)
-r_linear_5pc <- format((150 - 150 * .95^40) / 150 / 40 * 100, digits = 2)
-```
-
-::: {#fig-species_loss}
-```{r}
-#| label: species_loss
-ggtheme_set()
-sp_initial <- 150
-r <- -1/100
-years <- 0:40
-sp_year <- sp_initial * (1 + r)^years
-sp_linear <- sp_initial + (min(sp_year) - sp_initial) / max(years) * years
-tibble(time = years, exponential = sp_year, linear = sp_linear) %>% 
-  pivot_longer(cols = -"time", names_to = "model") %>% 
-  ggplot(aes(x = time, y = value, color = model)) +
-  geom_line() +
-  labs(x = "Time", y = "Richness") +
-  theme(legend.position = "none")
-```
-
-1% yearly richness loss along 40 years.
-The number of species is represented by the red curve, from 150 species initially to approximately 100 species after 40 years.
-The blue line is the incorrect linear approximation of the curve based on the initial and final numbers of species, that underestimates the yearly richness loss: its slope is -`r r_linear_1pc`% of the initial number of species.
-:::
-
 An example is shown in @fig-species_loss.
 Starting from 150 species, $r$ is arbitrarily chosen equal to 1% per year.
 After 40 years, the final number of species (@eq-exponential) is close to `r round(150 * .99^40)`, rather than 90 according to @eq-linear.
@@ -277,16 +277,146 @@ The error increases with the interval between inventories and its actual value, 
 
 # Appropriate methods
 
+::: {#fig-standardized}
+```{r}
+#| label: standardized
+ggtheme_set()
+simulations_n <- 100
+rcommunity(simulations_n, size = 1500, abd = as.numeric(the_community_300)) %>% 
+  div_richness(level = 500) %>% 
+  mutate(plot = "Initial")  %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 1250, abd = as.numeric(the_community_300)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Initial")
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 1000, abd = as.numeric(the_community_300)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Initial")
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 750, abd = as.numeric(the_community_300)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Initial")
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 500, abd = as.numeric(the_community_300)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Initial")
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 250, abd = as.numeric(the_community_300)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Initial")
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 125, abd = as.numeric(the_community_300)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Initial")
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 1500, abd = as.numeric(the_community_240)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Final") 
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 1250, abd = as.numeric(the_community_240)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Final") 
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 1000, abd = as.numeric(the_community_240)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Final") 
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 750, abd = as.numeric(the_community_240)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Final") 
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 500, abd = as.numeric(the_community_240)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Final") 
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 250, abd = as.numeric(the_community_240)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Final")
+  ) %>% 
+  bind_rows(
+    rcommunity(simulations_n, size = 125, abd = as.numeric(the_community_240)) %>% 
+      div_richness(level = 500) %>% 
+      mutate(plot = "Final")
+  ) %>% 
+  group_by(plot, weight) %>% 
+  {. ->> richness_sims} %>% 
+  summarize(
+    richness_mean = mean(diversity),
+    richness_sd = sd(diversity)
+  ) %>% 
+  ggplot(aes(x = weight, y = richness_mean, color = plot)) +
+    geom_vline(xintercept = 500, lty = 2) +
+    geom_line() +
+    geom_point() +
+    geom_errorbar(
+      aes(
+        ymin = richness_mean - richness_sd, 
+        ymax = richness_mean + richness_sd
+      ),
+      width = 40,
+      position = position_dodge(10)
+    ) +
+    labs(x = "Plot Size", y = "Standardized Richness") +
+    theme(legend.position = "none") ->
+  fig_richness
+
+richness_sims %>% 
+  pivot_wider(
+    names_from = plot, 
+    values_from = c(diversity)
+  ) %>%
+  mutate(change = (Final - Initial ) / Initial ) %>% 
+  group_by(weight) %>% 
+  summarize(change_mean = mean(change), change_sd = sd(change)) %>% 
+  ggplot(aes(x = weight, y = change_mean)) +
+    geom_vline(xintercept = 500, lty = 2) +
+    geom_line() +
+    geom_point() +
+    geom_errorbar(
+      aes(
+        ymin = change_mean - change_sd, 
+        ymax = change_mean + change_sd
+      ),
+      width = 40
+    ) +
+    labs(x = "Plot Size", y = "Relative Richness Change") ->
+  fig_change
+
+ggarrange(fig_richness, fig_change, labels = letters[1:2], ncol = 2)
+```
+
+\(a\) Richness standardized at 500 trees of samples of different sizes from a log-normal community with 300 species (blue) or 240 species (red).
+The lines are the mean values of 100 simulations, and the bars correspond to one standard deviation.
+(b) The observed relative richness change does not depend on the sample size except when it is less than half the standard level of extrapolation.
+:::
+
 These issues can be corrected relatively simply.
 The first step consists of standardizing the plot size.
 Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not the most abundant [@Grabchak2016].
 The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated [@Gotelli2001].
-Extrapolation over twice the original size is considered risky [@Chao2014] so the standard size may have to be reduced if too many small plots are used.
+
+@fig-standardized a shows the average richness estimation, standardized at 500 trees (roughly 1 ha), of 100 simulated plots of sizes varying from 125 to 1500 trees (1/4 to 3 ha) drawn in the communities of 300 and 240 species.
+Richness change is calculated for each pair of simulated plots and represented in @fig-standardized b.
+In contrast with @fig-plot_size b, it is independent from plot size.
+
+Extrapolation over twice the original size is considered risky [@Chao2014] (the 125-trees plots in @fig-plot_size b do not allow estimating richness change correctly) so the standard size may have to be reduced if too many small plots are used.
 The trade-off is between larger standardized plots, including information about more species and smaller plots to limit extrapolation uncertainty.
 Since the average plot size is 1.23 ha, 1 ha may be a good choice: a round size, used in many studies, has the advantage of allowing intuitive interpretation.
 
 In practice, the target size is a number of individuals, calculated according to each plot's tree density.
-R packages *iNEXT* [@Hsieh2014] or *divent* allow interpolating and extrapolating richness of an abundance distribution to the desired number of trees.
+R packages *iNEXT* [@Hsieh2014] or *divent* (used here) allow interpolating and extrapolating richness of an abundance distribution to the desired number of trees.
 
 The standardized initial and final richness of each plot will then be available.
 The second step is calculating richness change according to @eq-exponential_r.
