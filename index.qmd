@@ -23,7 +23,7 @@ author:
     attributes:
       corresponding: true
 abstract: |
-  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.* (2026) in Nature Ecology & Evolution are presented. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.
+  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.* (2026) in Nature Ecology & Evolution are addressed. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.
   
 bibliography: bibliography.bib
 execute:
@@ -480,7 +480,7 @@ ggarrange(fig_richness, fig_change, labels = letters[1:2], ncol = 2)
 
 \(a\) Richness standardized at 500 trees of samples of different sizes from a log-normal community with 300 species (blue) or 240 species (red).
 The lines are the mean values of 100 simulations, and the bars correspond to one standard deviation.
-(b) The observed relative richness change does not depend on the sample size except when it is less than half the standard level of extrapolation.
+(b) The observed relative richness change does not depend on the sample size when it is at least half the standard level of extrapolation.
 :::
 
 These issues can be corrected relatively simply.
