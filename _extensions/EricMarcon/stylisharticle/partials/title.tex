@@ -1,0 +1,71 @@
+% Set up hyperref, after loading it
+\hypersetup{
+  linkcolor=black,
+  citecolor=black,
+  colorlinks=true
+}
+
+% Journal information
+$if(journalinfo)$
+  \JournalInfo{$journalinfo$}
+$else$
+  \JournalInfo{\ }
+$endif$
+
+% Additional notes (e.g. copyright, DOI, review/research article)
+$if(archive)$
+  \Archive{$archive$}
+$else$
+  \Archive{\ }
+$endif$
+
+% Article title
+\PaperTitle{$title$}
+
+% Authors
+\Authors{
+  $for(by-author)$
+    {$it.name.literal$}%
+    \textsuperscript{%
+      $if(it.orcid)$~\orcidlink{$it.orcid$}$endif$%
+      $for(it.affiliations)$$it.number$$sep$,$endfor$%
+      $if(it.attributes.corresponding)$*$endif$%
+    }%
+    $sep$,
+  $endfor$
+}
+
+% Affiliations
+$for(by-author)$
+  $for(by-author.affiliations)$
+    \affiliation{%
+      \textsuperscript{$it.number$}%
+      $if(it.name)$$it.name$$endif$%
+      $if(it.department)$, $it.department$$endif$%
+      $if(it.address)$, $it.address$$endif$%
+      $if(it.city)$, $it.city$$endif$%
+      $if(it.region)$, $it.region$$endif$%
+      $if(it.country)$, $it.country$$endif$%
+      $if(it.postal-code)$, $it.postal-code$$endif$%
+      $if(it.url)$, $it.url$$endif$%
+    }
+  $endfor$
+$endfor$
+
+% Corresponding author
+$for(by-author)$
+  $if(it.attributes.corresponding)$%
+    \affiliation{%
+      *\textbf{$corrauthorlabel$}: $it.email$$if(it.url)$, \url{$it.url$}$endif$%
+    }%
+  $endif$%
+$endfor$
+
+% Keywords
+\Keywords{$for(keywords)$$keywords$$sep$, $endfor$}
+\newcommand{\keywordname}{$keywordlabel$} % Defines the keywords heading name
+
+%	Abstract
+\Abstract{
+  $abstract$
+}

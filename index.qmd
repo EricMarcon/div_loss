@@ -1,6 +1,7 @@
 ---
 title: Tree diversity changes estimation issues. Commentary on Fadrique et al. (2026)
 format:
+  stylisharticle-html: default
   nature-pdf:
     journal:
       cite-style: sn-nature

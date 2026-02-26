@@ -1,0 +1,40 @@
+title: Stylish Article
+author: Eric Marcon
+version: 1.3.0
+contributes:
+  formats:
+    common:
+      filters:
+        - color-text.lua
+      number-sections: true
+      number-depth: 2
+      toc-depth: 2
+    pdf:
+      documentclass: stylisharticle
+      fontsize: 11pt
+      colorlinks: true
+      csquotes: true
+      urlcolor: blue
+      toc-depth: 3
+      header-includes: |
+        \definecolor{red}{RGB}{255, 0, 0}
+        \definecolor{green}{RGB}{0, 255, 0}
+        \definecolor{blue}{RGB}{0, 0, 255}
+      include-in-header:
+        - header.tex
+      template-partials:
+        - "partials/before-body.tex"
+        - "partials/title.tex"
+        - "partials/tables.tex"
+      format-resources:
+        - stylisharticle.cls
+    html:
+      number-sections: true
+      toc: true
+      toc-depth: 3
+      theme: custom.scss
+      csl: https://www.zotero.org/styles/chicago-author-date
+      reference-location: margin
+      cap-location: margin
+      citation-location: document
+      suppress-bibliography: false
