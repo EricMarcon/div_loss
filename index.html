@@ -1,15 +1,688 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>Tree diversity changes estimation issues. Commentary on Fadrique et al. (2026)</title>
-<style type="text/css">
-  body, html {
-    margin: 0; padding: 0; height: 100%; overflow: hidden;
-  }
-</style>
-</head>
-<body>
-<iframe id="pdf-js-viewer" src="pdfjs/web/viewer.html?file=../../index.pdf" title="Tree diversity changes estimation issues. Commentary on Fadrique et al. (2026)" frameborder="0" width="100%" height="100%"></iframe>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-</body>
-</html>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Eric Marcon">
+
+<title>Tree diversity changes estimation issues. Commentary on Fadrique et al.&nbsp;(2026)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="index_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap-b9aa03ad5355050647b5a7a5fe5b738e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#plot-sizes" id="toc-plot-sizes" class="nav-link" data-scroll-target="#plot-sizes"><span class="header-section-number">2</span> Plot sizes</a></li>
+  <li><a href="#yearly-richness-change" id="toc-yearly-richness-change" class="nav-link" data-scroll-target="#yearly-richness-change"><span class="header-section-number">3</span> Yearly richness change</a></li>
+  <li><a href="#appropriate-methods" id="toc-appropriate-methods" class="nav-link" data-scroll-target="#appropriate-methods"><span class="header-section-number">4</span> Appropriate methods</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF (nature)</a></li></ul></div></nav>
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tree diversity changes estimation issues. Commentary on Fadrique et al.&nbsp;(2026)</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Eric Marcon <a href="mailto:eric.marcon@agroparistech.fr" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            AgroParisTech
+          </p>
+        <p class="affiliation">
+            AMAP, CIRAD, CNRS, INRAE, IRD, Univ Montpellier
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>Issues in the estimation of yearly richness change the Amazon derived by Fadrique <em>et al.</em> (2026) in Nature Ecology &amp; Evolution are addressed. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.</p>
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>Fadrique and colleagues <span class="citation" data-cites="Fadrique2026">(<a href="#ref-Fadrique2026" role="doc-biblioref">Fadrique et al. 2026</a>)</span> assess the long-term variations of species richness in the Amazon and explore their determinants. The way they estimate the yearly richness change in each of the 406 plots used in the study faces two methodological issues that are serious enough to question the results and justify recomputing it.</p>
+<p>The consequences of unequal plot sizes are shown in the first section of this reply, followed by those of the linear approximation of richness change along years. The last section suggests the methods to deal with these issues.</p>
+<p>Examples below were made with the <em>divent</em> package <span class="citation" data-cites="divent">(<a href="#ref-divent" role="doc-biblioref">Marcon and Puech 2026</a>)</span> for R <span class="citation" data-cites="R">(<a href="#ref-R" role="doc-biblioref">R Core Team 2026</a>)</span>.</p>
+</section>
+<section id="plot-sizes" class="level1 page-columns page-full" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Plot sizes</h1>
+<p>Richness change is characterized in the article as a relative increase or decrease compared to the initial number of species. Yet, the number of species and its change depend on the area of each plot. Plots are samples of local communities of trees: their richness depend on the species distribution in the community they belong to and of their size. The species accumulation curves <span class="citation" data-cites="Gotelli2001">(<a href="#ref-Gotelli2001" role="doc-biblioref">Gotelli and Colwell 2001</a>)</span>, i.e.&nbsp;the expected richness with respect to sample size, can be computed easily <span class="citation" data-cites="Chao2014">(<a href="#ref-Chao2014" role="doc-biblioref">Chao et al. 2014</a>)</span>.</p>
+<p><a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a>a shows the species accumulation curves of two communities. The initial one is simulated in a log-normal distribution with standard deviation 1.3 and 300 species. The final one is drawn in the same distribution with 20% less species. The observed richness change relies heavily on the plot size (<a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a>b). The same changes in the community distribution imply completely different observed changes in plots of different sizes, that may even be contradictory: richness gain here according to a 125-tree (around 0.25-ha) plot versus richness loss in a 500-tree (1-ha) plot. <a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a> is just an illustration. Various simulations show unpredictable shapes of the relative richness change curve: the difference of richness clearly increases with plot size but both initial and final richness increase, so their ratio may vary in different directions, even though it will ultimately reach an asymptote (-20% in <a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a>b).</p>
+<div id="fig-plot_size" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-plot_size-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/plot_size-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-plot_size-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: (a) Species accumulation curves of a log-normal community with 300 species (blue) or 240 species (red). (b) The observed relative richness change depends on the sample size.
+</figcaption>
+</figure>
+</div>
+<p>Richness change thus cannot be compared between plot of different sizes: the same variation in the species distribution of the local community has quantitatively and, for small plots, sometimes qualitatively different effects on richness change.</p>
+</section>
+<section id="yearly-richness-change" class="level1 page-columns page-full" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Yearly richness change</h1>
+<p></p>
+<p></p>
+<div id="fig-species_loss" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-species_loss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/species_loss-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-species_loss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: 1% yearly richness loss along 40 years. The number of species is represented by the red curve, from 150 species initially to approximately 100 species after 40 years. The blue line is the incorrect linear approximation of the curve based on the initial and final numbers of species, that underestimates the yearly richness loss: its slope is -0.83% of the initial number of species.
+</figcaption>
+</figure>
+</div>
+<p>In the article, yearly richness change is calculated as</p>
+<p><span id="eq-linear_r"><span class="math display">\[
+r = ({SP}_{final} - {SP}_{initial}) / {SP}_{initial} / {time}
+\tag{1}\]</span></span></p>
+<p>even though it is incorrectly reported as the opposite in the text. The multiplication by 100 to obtain a percentage is omitted here. This equation can be rearranged as</p>
+<p><span id="eq-linear"><span class="math display">\[
+{SP}_{final} = {SP}_{initial} * (1 + r * {time}).
+\tag{2}\]</span></span></p>
+<p>The purpose is to estimate an average yearly richness change, whatever the time interval. Then, richness at time <span class="math inline">\(t+1\)</span> is richness at time <span class="math inline">\(t\)</span> multiplied by <span class="math inline">\(1+r\)</span>, whatever <span class="math inline">\(t\)</span> during the interval. Thus, the correct way to calculate <span class="math inline">\(r\)</span> is derived from the relation</p>
+<p><span id="eq-exponential"><span class="math display">\[
+{SP}_{final} = {SP}_{initial} * (1 + r)^{time}.
+\tag{3}\]</span></span></p>
+<p>This is the discrete form of an exponential variation. The linear approximation (<a href="#eq-linear" class="quarto-xref">Equation&nbsp;2</a>) used in the article is acceptable for small intervals but leads to large error over decades.</p>
+<p>The correct richness loss is obtained by solving the previous equation:</p>
+<p><span id="eq-exponential_r"><span class="math display">\[
+r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.
+\tag{4}\]</span></span></p>
+<p>An example is shown in <a href="#fig-species_loss" class="quarto-xref">Figure&nbsp;2</a>. Starting from 150 species, <span class="math inline">\(r\)</span> is arbitrarily chosen equal to 1% per year. After 40 years, the final number of species (<a href="#eq-exponential" class="quarto-xref">Equation&nbsp;3</a>) is close to 100, rather than 90 according to <a href="#eq-linear" class="quarto-xref">Equation&nbsp;2</a>. <a href="#eq-linear_r" class="quarto-xref">Equation&nbsp;1</a> used in the article estimates the species loss to be 0.83% instead of 1%.</p>
+<p>The error increases with the absolute value of richness change: 5% yearly species lost during 40 years is estimated to be only 2.2% by <a href="#eq-linear_r" class="quarto-xref">Equation&nbsp;1</a>. Richness change absolute value is thus systematically underestimated in the article. The error increases with the interval between inventories and its actual value, making the more valuable data less reliable.</p>
+</section>
+<section id="appropriate-methods" class="level1 page-columns page-full" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Appropriate methods</h1>
+<div id="fig-standardized" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-standardized-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/standardized-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-standardized-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: (a) Richness standardized at 500 trees of samples of different sizes from a log-normal community with 300 species (blue) or 240 species (red). The lines are the mean values of 100 simulations, and the bars correspond to one standard deviation. (b) The observed relative richness change does not depend on the sample size when it is at least half the standard level of extrapolation.
+</figcaption>
+</figure>
+</div>
+<p>These issues can be corrected relatively simply. The first step consists of standardizing the plot size. Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not the most abundant <span class="citation" data-cites="Grabchak2016">(<a href="#ref-Grabchak2016" role="doc-biblioref">Grabchak et al. 2017</a>)</span>. The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated <span class="citation" data-cites="Gotelli2001">(<a href="#ref-Gotelli2001" role="doc-biblioref">Gotelli and Colwell 2001</a>)</span>.</p>
+<p><a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>a shows the average richness estimation, standardized at 500 trees (roughly 1 ha), of 100 simulated plots of sizes varying from 125 to 1500 trees (1/4 to 3 ha) drawn in the communities of 300 and 240 species. Richness change is calculated for each pair of simulated plots and represented in <a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>b. In contrast with <a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a>b, it is independent from plot size.</p>
+<p>Extrapolation over twice the original size is considered risky <span class="citation" data-cites="Chao2014">(<a href="#ref-Chao2014" role="doc-biblioref">Chao et al. 2014</a>)</span> (the 125-trees plots in <a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>b do not allow estimating richness change correctly) so the standard size may have to be reduced if too many small plots are used. The trade-off is between larger standardized plots, including information about more species and smaller plots to limit extrapolation uncertainty. Since the average plot size is 1.23 ha, 1 ha may be a good choice: a round size, used in many studies, has the advantage of allowing intuitive interpretation.</p>
+<p>In practice, the target size is a number of individuals, calculated according to each plot’s tree density. R packages <em>iNEXT</em> <span class="citation" data-cites="Hsieh2014">(<a href="#ref-Hsieh2014" role="doc-biblioref">Hsieh et al. 2016</a>)</span> or <em>divent</em> (used here) allow interpolating and extrapolating richness of an abundance distribution to the desired number of trees.</p>
+<p>The standardized initial and final richness of each plot will then be available. The second step is calculating richness change according to <a href="#eq-exponential_r" class="quarto-xref">Equation&nbsp;4</a>. Then, all analyzes can be run again.</p>
+</section>
+<section id="references" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Chao2014" class="csl-entry" role="listitem">
+Chao, Anne, Nicholas J. Gotelli, T. C. Hsieh, et al. 2014. <span>“Rarefaction and Extrapolation with <span>Hill</span> Numbers: A Framework for Sampling and Estimation in Species Diversity Studies.”</span> <em>Ecological Monographs</em> 84 (1): 45–67. <a href="https://doi.org/10.1890/13-0133.1">https://doi.org/10.1890/13-0133.1</a>.
+</div>
+<div id="ref-Fadrique2026" class="csl-entry" role="listitem">
+Fadrique, B., F. Costa, F. Cuesta, et al. 2026. <span>“Tree Diversity Is Changing Across Tropical <span>Andean</span> and <span>Amazonian</span> Forests in Response to Global Change.”</span> <em>Nature Ecology &amp; Evolution</em> 10 (2): 267–80. <a href="https://doi.org/10.1038/s41559-025-02956-5">https://doi.org/10.1038/s41559-025-02956-5</a>.
+</div>
+<div id="ref-Gotelli2001" class="csl-entry" role="listitem">
+Gotelli, Nicholas J., and Robert K. Colwell. 2001. <span>“Quantifying Biodiversity: Procedures and Pitfalls in the Measurement and Comparison of Species Richness.”</span> <em>Ecology Letters</em> 4 (4): 379–91. <a href="https://doi.org/10.1046/j.1461-0248.2001.00230.x">https://doi.org/10.1046/j.1461-0248.2001.00230.x</a>.
+</div>
+<div id="ref-Grabchak2016" class="csl-entry" role="listitem">
+Grabchak, Michael, Eric Marcon, Gabriel Lang, and Zhiyi Zhang. 2017. <span>“The Generalized <span>Simpson</span>’s Entropy Is a Measure of Biodiversity.”</span> <em>Plos One</em> 12 (3): e0173305. <a href="https://doi.org/10.1371/journal.pone.0173305">https://doi.org/10.1371/journal.pone.0173305</a>.
+</div>
+<div id="ref-Hsieh2014" class="csl-entry" role="listitem">
+Hsieh, T. C., K. H. Ma, and Anne Chao. 2016. <span>“<span class="nocase">iNEXT</span>: An <span>R</span> Package for Interpolation and Extrapolation in Measuring Species Diversity.”</span> <em>Methods in Ecology and Evolution</em> 7: 1451–56. <a href="https://doi.org/10.1111/2041-210X.12613">https://doi.org/10.1111/2041-210X.12613</a>.
+</div>
+<div id="ref-divent" class="csl-entry" role="listitem">
+Marcon, Eric, and Florence Puech. 2026. <em>Divent: Entropy Partitioning to Measure Diversity</em>. <a href="https://ericmarcon.github.io/divent/">https://ericmarcon.github.io/divent/</a>.
+</div>
+<div id="ref-R" class="csl-entry" role="listitem">
+R Core Team. 2026. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. <a href="http://www.r-project.org">http://www.r-project.org</a>.
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
