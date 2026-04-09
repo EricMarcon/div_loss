@@ -24,7 +24,7 @@ author:
     attributes:
       corresponding: true
 abstract: |
-  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.* (2026) in Nature Ecology & Evolution are addressed. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.
+  Issues in the estimation of yearly richness change the Amazon derived by Fadrique *et al.* (2026) in Nature Ecology & Evolution are addressed. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its underestimation in long-term plots. The necessary methods are proposed to correct these issues.
   
 bibliography: bibliography.bib
 execute:
@@ -489,7 +489,7 @@ The first step consists of standardizing the plot size.
 Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not the most abundant [@Grabchak2016].
 The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated [@Gotelli2001].
 
-[@fig-standardized]a shows the average richness estimation, standardized at 500 trees (roughly 1 ha), of 100 simulated plots of sizes varying from 125 to 1500 trees (1/4 to 3 ha) drawn in the communities of 300 and 240 species.
+[@fig-standardized]a shows the average richness estimation, standardized at 500 trees (1 ha, assuming density is 500 trees/ha), of 100 simulated plots of sizes varying from 125 to 1500 trees (1/4 to 3 ha) drawn in the communities of 300 and 240 species.
 Richness change is calculated for each pair of simulated plots and represented in [@fig-standardized]b.
 In contrast with [@fig-plot_size]b, it is independent from plot size.
 
@@ -497,8 +497,7 @@ Extrapolation over twice the original size is considered risky [@Chao2014] (the 
 The trade-off is between larger standardized plots, including information about more species and smaller plots to limit extrapolation uncertainty.
 Since the average plot size is 1.23 ha, 1 ha may be a good choice: a round size, used in many studies, has the advantage of allowing intuitive interpretation.
 
-In practice, the target size is a number of individuals, calculated according to each plot's tree density.
-R packages *iNEXT* [@Hsieh2014] or *divent* (used here) allow interpolating and extrapolating richness of an abundance distribution to the desired number of trees.
+In practice, R packages *iNEXT* [@Hsieh2014] or *divent* (used here) allow interpolating and extrapolating richness of an abundance distribution to the desired number of individuals, that must be derived from each plot's tree density to reach the target area: for instance, extrapolating the diversity of a half-hectare plot with 300 trees up to one hectare area implies extrapolating up to 600 trees.
 
 The standardized initial and final richness of each plot will then be available.
 The second step is calculating richness change according to @eq-exponential_r.
