@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,6 +10,9 @@
 
 <title>Tree diversity changes estimation issues. Commentary on Fadrique et al.&nbsp;(2026)</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -46,18 +49,17 @@ div.csl-indent {
 <script src="index_files/libs/clipboard/clipboard.min.js"></script>
 <script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="index_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="index_files/libs/quarto-html/popper.min.js"></script>
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="index_files/libs/quarto-html/anchor.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-b9aa03ad5355050647b5a7a5fe5b738e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-a6b5f865d6dcadfb725b6373fb3ba357.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -139,7 +141,7 @@ window.Quarto = {
 <div>
   <div class="abstract">
     <div class="block-title">Abstract</div>
-    <p>Issues in the estimation of yearly richness change the Amazon derived by Fadrique <em>et al.</em> (2026) in Nature Ecology &amp; Evolution are addressed. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its severe underestimation in long-term plots. The necessary methods are proposed to correct these issues.</p>
+    <p>Issues in the estimation of yearly richness change the Amazon derived by Fadrique <em>et al.</em> (2026) in Nature Ecology &amp; Evolution are addressed. Richness change was not standardized to a consistent plot size, preventing comparing it between plots, and the yearly richness change was calculated with a linear approximation leading to its underestimation in long-term plots. The necessary methods are proposed to correct these issues.</p>
   </div>
 </div>
 
@@ -246,9 +248,9 @@ Figure&nbsp;3: (a) Richness standardized at 500 trees of samples of different si
 </figure>
 </div>
 <p>These issues can be corrected relatively simply. The first step consists of standardizing the plot size. Its choice has consequences on the results and their significance: the smaller the plots, the lower the ability to take into account species that are not the most abundant <span class="citation" data-cites="Grabchak2016">(<a href="#ref-Grabchak2016" role="doc-biblioref">Grabchak et al. 2017</a>)</span>. The richness of larger plots can be rarefied with no limit and that of smaller plots extrapolated <span class="citation" data-cites="Gotelli2001">(<a href="#ref-Gotelli2001" role="doc-biblioref">Gotelli and Colwell 2001</a>)</span>.</p>
-<p><a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>a shows the average richness estimation, standardized at 500 trees (roughly 1 ha), of 100 simulated plots of sizes varying from 125 to 1500 trees (1/4 to 3 ha) drawn in the communities of 300 and 240 species. Richness change is calculated for each pair of simulated plots and represented in <a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>b. In contrast with <a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a>b, it is independent from plot size.</p>
+<p><a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>a shows the average richness estimation, standardized at 500 trees (1 ha, assuming density is 500 trees/ha), of 100 simulated plots of sizes varying from 125 to 1500 trees (1/4 to 3 ha) drawn in the communities of 300 and 240 species. Richness change is calculated for each pair of simulated plots and represented in <a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>b. In contrast with <a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a>b, it is independent from plot size.</p>
 <p>Extrapolation over twice the original size is considered risky <span class="citation" data-cites="Chao2014">(<a href="#ref-Chao2014" role="doc-biblioref">Chao et al. 2014</a>)</span> (the 125-trees plots in <a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>b do not allow estimating richness change correctly) so the standard size may have to be reduced if too many small plots are used. The trade-off is between larger standardized plots, including information about more species and smaller plots to limit extrapolation uncertainty. Since the average plot size is 1.23 ha, 1 ha may be a good choice: a round size, used in many studies, has the advantage of allowing intuitive interpretation.</p>
-<p>In practice, the target size is a number of individuals, calculated according to each plot’s tree density. R packages <em>iNEXT</em> <span class="citation" data-cites="Hsieh2014">(<a href="#ref-Hsieh2014" role="doc-biblioref">Hsieh et al. 2016</a>)</span> or <em>divent</em> (used here) allow interpolating and extrapolating richness of an abundance distribution to the desired number of trees.</p>
+<p>In practice, R packages <em>iNEXT</em> <span class="citation" data-cites="Hsieh2014">(<a href="#ref-Hsieh2014" role="doc-biblioref">Hsieh et al. 2016</a>)</span> or <em>divent</em> (used here) allow interpolating and extrapolating richness of an abundance distribution to the desired number of individuals, that must be derived from each plot’s tree density to reach the target area: for instance, extrapolating the diversity of a half-hectare plot with 300 trees up to one hectare area implies extrapolating up to 600 trees.</p>
 <p>The standardized initial and final richness of each plot will then be available. The second step is calculating richness change according to <a href="#eq-exponential_r" class="quarto-xref">Equation&nbsp;4</a>. Then, all analyzes can be run again.</p>
 </section>
 <section id="references" class="level1" data-number="5">
