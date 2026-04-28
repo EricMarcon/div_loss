@@ -254,34 +254,30 @@ The blue line is the incorrect linear approximation of the curve based on the in
 
 In the article, yearly richness change is calculated as
 
-$$
-r = ({SP}_{final} - {SP}_{initial}) / {SP}_{initial} / {time}
-$$ {#eq-linear_r}
+$$r = ({SP}_{final} - {SP}_{initial}) / {SP}_{initial} / {time}$$
+ {#eq-linear_r}
 
 even though it is incorrectly reported as the opposite in the text.
 The multiplication by 100 to obtain a percentage is omitted here.
 This equation can be rearranged as
 
-$$
-{SP}_{final} = {SP}_{initial} * (1 + r * {time}).
-$$ {#eq-linear}
+$${SP}_{final} = {SP}_{initial} * (1 + r * {time}).$$
+ {#eq-linear}
 
 The purpose is to estimate an average yearly richness change, whatever the time interval.
 Then, richness at time $t+1$ is richness at time $t$ multiplied by $1+r$, whatever $t$ during the interval.
 Thus, the correct way to calculate $r$ is derived from the relation
 
-$$
-{SP}_{final} = {SP}_{initial} * (1 + r)^{time}.
-$$ {#eq-exponential}
+$${SP}_{final} = {SP}_{initial} * (1 + r)^{time}.$$
+ {#eq-exponential}
 
 This is the discrete form of an exponential variation.
 The linear approximation (@eq-linear) used in the article is acceptable for small intervals but leads to large error over decades.
 
 The correct richness loss is obtained by solving the previous equation:
 
-$$
-r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.
-$$ {#eq-exponential_r}
+$$r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.$$
+ {#eq-exponential_r}
 
 An example is shown in @fig-species_loss.
 Starting from 150 species, $r$ is arbitrarily chosen equal to 1% per year.
