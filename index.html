@@ -206,24 +206,16 @@ Figure&nbsp;2: 1% yearly richness loss along 40 years. The number of species is 
 </figure>
 </div>
 <p>In the article, yearly richness change is calculated as</p>
-<p><span id="eq-linear_r"><span class="math display">\[
-r = ({SP}_{final} - {SP}_{initial}) / {SP}_{initial} / {time}
-\tag{1}\]</span></span></p>
+<p><span class="math display">\[r = ({SP}_{final} - {SP}_{initial}) / {SP}_{initial} / {time}\]</span> {#eq-linear_r}</p>
 <p>even though it is incorrectly reported as the opposite in the text. The multiplication by 100 to obtain a percentage is omitted here. This equation can be rearranged as</p>
-<p><span id="eq-linear"><span class="math display">\[
-{SP}_{final} = {SP}_{initial} * (1 + r * {time}).
-\tag{2}\]</span></span></p>
+<p><span class="math display">\[{SP}_{final} = {SP}_{initial} * (1 + r * {time}).\]</span> {#eq-linear}</p>
 <p>The purpose is to estimate an average yearly richness change, whatever the time interval. Then, richness at time <span class="math inline">\(t+1\)</span> is richness at time <span class="math inline">\(t\)</span> multiplied by <span class="math inline">\(1+r\)</span>, whatever <span class="math inline">\(t\)</span> during the interval. Thus, the correct way to calculate <span class="math inline">\(r\)</span> is derived from the relation</p>
-<p><span id="eq-exponential"><span class="math display">\[
-{SP}_{final} = {SP}_{initial} * (1 + r)^{time}.
-\tag{3}\]</span></span></p>
-<p>This is the discrete form of an exponential variation. The linear approximation (<a href="#eq-linear" class="quarto-xref">Equation&nbsp;2</a>) used in the article is acceptable for small intervals but leads to large error over decades.</p>
+<p><span class="math display">\[{SP}_{final} = {SP}_{initial} * (1 + r)^{time}.\]</span> {#eq-exponential}</p>
+<p>This is the discrete form of an exponential variation. The linear approximation (<strong>?@eq-linear</strong>) used in the article is acceptable for small intervals but leads to large error over decades.</p>
 <p>The correct richness loss is obtained by solving the previous equation:</p>
-<p><span id="eq-exponential_r"><span class="math display">\[
-r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.
-\tag{4}\]</span></span></p>
-<p>An example is shown in <a href="#fig-species_loss" class="quarto-xref">Figure&nbsp;2</a>. Starting from 150 species, <span class="math inline">\(r\)</span> is arbitrarily chosen equal to 1% per year. After 40 years, the final number of species (<a href="#eq-exponential" class="quarto-xref">Equation&nbsp;3</a>) is close to 100, rather than 90 according to <a href="#eq-linear" class="quarto-xref">Equation&nbsp;2</a>. <a href="#eq-linear_r" class="quarto-xref">Equation&nbsp;1</a> used in the article estimates the species loss to be 0.83% instead of 1%.</p>
-<p>The error increases with the absolute value of richness change: 5% yearly species lost during 40 years is estimated to be only 2.2% by <a href="#eq-linear_r" class="quarto-xref">Equation&nbsp;1</a>. Richness change absolute value is thus systematically underestimated in the article. The error increases with the interval between inventories and its actual value, making the more valuable data less reliable.</p>
+<p><span class="math display">\[r = \left({SP}_{final} / {SP}_{initial}\right)^{1 / {time}} - 1.\]</span> {#eq-exponential_r}</p>
+<p>An example is shown in <a href="#fig-species_loss" class="quarto-xref">Figure&nbsp;2</a>. Starting from 150 species, <span class="math inline">\(r\)</span> is arbitrarily chosen equal to 1% per year. After 40 years, the final number of species (<strong>?@eq-exponential</strong>) is close to 100, rather than 90 according to <strong>?@eq-linear</strong>. <strong>?@eq-linear_r</strong> used in the article estimates the species loss to be 0.83% instead of 1%.</p>
+<p>The error increases with the absolute value of richness change: 5% yearly species lost during 40 years is estimated to be only 2.2% by <strong>?@eq-linear_r</strong>. Richness change absolute value is thus systematically underestimated in the article. The error increases with the interval between inventories and its actual value, making the more valuable data less reliable.</p>
 </section>
 <section id="appropriate-methods" class="level1 page-columns page-full" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Appropriate methods</h1>
@@ -251,7 +243,7 @@ Figure&nbsp;3: (a) Richness standardized at 500 trees of samples of different si
 <p><a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>a shows the average richness estimation, standardized at 500 trees (i.e., 1 ha, assuming density is 500 trees/ha), of 100 simulated plots of sizes varying from 125 to 1500 trees (1/4 to 3 ha) drawn in the communities of 300 and 240 species. Richness change is calculated for each pair of simulated plots and represented in <a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>b. In contrast with <a href="#fig-plot_size" class="quarto-xref">Figure&nbsp;1</a>b, it is independent from plot size.</p>
 <p>Extrapolation over twice the original size is considered risky <span class="citation" data-cites="Chao2014">(<a href="#ref-Chao2014" role="doc-biblioref">Chao et al. 2014</a>)</span> (the 125-trees plots in <a href="#fig-standardized" class="quarto-xref">Figure&nbsp;3</a>b do not allow estimating richness change correctly) so the standard size may have to be reduced if too many small plots are used. The trade-off is between larger standardized plots, including information about more species and smaller plots to limit extrapolation uncertainty. Since the average plot size is 1.23 ha, 1 ha may be a good choice: a round size, used in many studies, has the advantage of allowing intuitive interpretation.</p>
 <p>In practice, R packages <em>iNEXT</em> <span class="citation" data-cites="Hsieh2014">(<a href="#ref-Hsieh2014" role="doc-biblioref">Hsieh et al. 2016</a>)</span> or <em>divent</em> (used here) allow interpolating and extrapolating richness of an abundance distribution to the desired number of individuals. It must be derived from each plot’s tree density to reach the target area: the <em>level</em> (this is the name of the argument of the R functions) of interpolation or extrapolation is <span class="math inline">\(n * A_{target} / A\)</span> where <span class="math inline">\(n\)</span> is the number of trees in the plot of area <span class="math inline">\(A\)</span> and <span class="math inline">\(A_{target}\)</span> is the target area. For instance, extrapolating the diversity of a half-hectare plot with 300 trees up to one hectare area implies extrapolating up to 600 trees.</p>
-<p>The standardized initial and final richness of each plot will then be available. The second step is calculating richness change according to <a href="#eq-exponential_r" class="quarto-xref">Equation&nbsp;4</a>. Then, all analyzes can be run again.</p>
+<p>The standardized initial and final richness of each plot will then be available. The second step is calculating richness change according to <strong>?@eq-exponential_r</strong>. Then, all analyzes can be run again.</p>
 </section>
 <section id="references" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> References</h1>
